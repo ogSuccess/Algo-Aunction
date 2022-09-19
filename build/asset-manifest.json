@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/algo-petshop/static/css/main.a174681c.chunk.css",
+    "main.js": "/algo-petshop/static/js/main.3c24dd0c.chunk.js",
+    "main.js.map": "/algo-petshop/static/js/main.3c24dd0c.chunk.js.map",
+    "runtime-main.js": "/algo-petshop/static/js/runtime-main.a8fca3d4.js",
+    "runtime-main.js.map": "/algo-petshop/static/js/runtime-main.a8fca3d4.js.map",
+    "static/css/2.d1dfb680.chunk.css": "/algo-petshop/static/css/2.d1dfb680.chunk.css",
+    "static/js/2.48f5c6ca.chunk.js": "/algo-petshop/static/js/2.48f5c6ca.chunk.js",
+    "static/js/2.48f5c6ca.chunk.js.map": "/algo-petshop/static/js/2.48f5c6ca.chunk.js.map",
+    "static/js/3.377d3bd2.chunk.js": "/algo-petshop/static/js/3.377d3bd2.chunk.js",
+    "static/js/3.377d3bd2.chunk.js.map": "/algo-petshop/static/js/3.377d3bd2.chunk.js.map",
+    "index.html": "/algo-petshop/index.html",
+    "static/css/2.d1dfb680.chunk.css.map": "/algo-petshop/static/css/2.d1dfb680.chunk.css.map",
+    "static/css/main.a174681c.chunk.css.map": "/algo-petshop/static/css/main.a174681c.chunk.css.map",
+    "static/js/2.48f5c6ca.chunk.js.LICENSE.txt": "/algo-petshop/static/js/2.48f5c6ca.chunk.js.LICENSE.txt",
+    "static/media/bootstrap-icons.css": "/algo-petshop/static/media/bootstrap-icons.c1d7432e.woff",
+    "static/media/petshop.0b59a906.jpg": "/algo-petshop/static/media/petshop.0b59a906.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a8fca3d4.js",
+    "static/css/2.d1dfb680.chunk.css",
+    "static/js/2.48f5c6ca.chunk.js",
+    "static/css/main.a174681c.chunk.css",
+    "static/js/main.3c24dd0c.chunk.js"
+  ]
+}

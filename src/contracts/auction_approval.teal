@@ -1,0 +1,264 @@
+#pragma version 6
+txn ApplicationID
+int 0
+==
+bnz main_l16
+txn OnCompletion
+int DeleteApplication
+==
+bnz main_l15
+txna ApplicationArgs 0
+byte "start"
+==
+bnz main_l14
+txna ApplicationArgs 0
+byte "bid"
+==
+bnz main_l9
+txna ApplicationArgs 0
+byte "end"
+==
+bnz main_l6
+err
+main_l6:
+global LatestTimestamp
+byte "AUCTIONEND"
+app_global_get
+>
+assert
+byte "STATUS"
+app_global_get
+int 1
+==
+assert
+byte "OWNER"
+app_global_get
+txn Sender
+==
+assert
+byte "HIGHESTBIDDER"
+app_global_get
+byte ""
+!=
+byte "STARTINGBID"
+app_global_get
+byte "HIGHESTBID"
+app_global_get
+!=
+&&
+bnz main_l8
+main_l7:
+byte "STATUS"
+int 2
+app_global_put
+int 1
+return
+main_l8:
+txn Fee
+global MinTxnFee
+int 2
+*
+>=
+assert
+global CreatorAddress
+byte "HIGHESTBID"
+app_global_get
+callsub pay_0
+byte "OWNER"
+byte "HIGHESTBIDDER"
+app_global_get
+app_global_put
+b main_l7
+main_l9:
+global GroupSize
+int 2
+==
+txn GroupIndex
+int 0
+==
+&&
+gtxn 1 TypeEnum
+int pay
+==
+gtxn 1 Receiver
+global CurrentApplicationAddress
+==
+&&
+gtxn 1 Amount
+byte "HIGHESTBID"
+app_global_get
+>
+&&
+gtxn 1 Sender
+gtxn 0 Sender
+==
+&&
+&&
+global LatestTimestamp
+byte "AUCTIONEND"
+app_global_get
+<
+byte "STATUS"
+app_global_get
+int 1
+==
+&&
+&&
+bnz main_l11
+int 0
+return
+main_l11:
+byte "HIGHESTBIDDER"
+app_global_get
+global ZeroAddress
+!=
+byte "STARTINGBID"
+app_global_get
+byte "HIGHESTBID"
+app_global_get
+!=
+&&
+txna Accounts 1
+byte "HIGHESTBIDDER"
+app_global_get
+==
+&&
+bnz main_l13
+main_l12:
+byte "HIGHESTBID"
+gtxn 1 Amount
+app_global_put
+byte "HIGHESTBIDDER"
+gtxn 0 Sender
+app_global_put
+int 1
+return
+main_l13:
+txn Fee
+global MinTxnFee
+int 3
+*
+>=
+assert
+txna Accounts 1
+byte "HIGHESTBID"
+app_global_get
+callsub pay_0
+b main_l12
+main_l14:
+global GroupSize
+int 2
+==
+assert
+txn GroupIndex
+int 0
+==
+assert
+gtxn 1 TypeEnum
+int pay
+==
+gtxn 1 Receiver
+global CurrentApplicationAddress
+==
+&&
+gtxn 1 Amount
+int 1000000
+==
+&&
+gtxn 1 Sender
+gtxn 0 Sender
+==
+&&
+assert
+byte "AUCTIONSTART"
+global LatestTimestamp
+app_global_put
+byte "AUCTIONEND"
+global LatestTimestamp
+byte "DURATION"
+app_global_get
++
+app_global_put
+byte "STATUS"
+int 1
+app_global_put
+int 1
+return
+main_l15:
+txn Sender
+byte "OWNER"
+app_global_get
+==
+byte "STATUS"
+app_global_get
+int 1
+!=
+&&
+return
+main_l16:
+txn NumAppArgs
+int 5
+==
+assert
+txn Note
+byte "auction:uv2"
+==
+assert
+txna ApplicationArgs 0
+btoi
+int 0
+>
+assert
+txna ApplicationArgs 4
+btoi
+int 0
+>
+assert
+byte "DURATION"
+txna ApplicationArgs 0
+btoi
+app_global_put
+byte "NAME"
+txna ApplicationArgs 1
+app_global_put
+byte "IMAGE"
+txna ApplicationArgs 2
+app_global_put
+byte "DESC"
+txna ApplicationArgs 3
+app_global_put
+byte "OWNER"
+global CreatorAddress
+app_global_put
+byte "STARTINGBID"
+txna ApplicationArgs 4
+btoi
+app_global_put
+byte "HIGHESTBID"
+txna ApplicationArgs 4
+btoi
+app_global_put
+byte "HIGHESTBIDDER"
+global ZeroAddress
+app_global_put
+byte "STATUS"
+int 0
+app_global_put
+int 1
+return
+
+// pay
+pay_0:
+store 1
+store 0
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 0
+itxn_field Receiver
+load 1
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
+retsub
