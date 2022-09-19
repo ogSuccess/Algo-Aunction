@@ -10,7 +10,7 @@
 
 ## Contract Info
 
-[demo]]()
+[demo]](https://algo-auction.netlify.app/)
 
 - Auction DApp, where people can list items for sale.
    - To start the auction the user will have to pay 1 algo, as the minimum required fee for an application on algorand
