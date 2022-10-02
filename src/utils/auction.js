@@ -53,7 +53,7 @@ const compileProgram = async (programSource) => {
 
 // CREATE AUCTION: ApplicationCreateTxn
 export const createAuctionAction = async (senderAddress, auction) => {
-  console.log("Starting Auction...");
+  
 
   let params = await algo.algodClient.getTransactionParams().do();
 
@@ -89,7 +89,7 @@ export const createAuctionAction = async (senderAddress, auction) => {
 
   // Sign & submit the transaction
   let signedTxn = await algo.myAlgoConnect.signTransaction(txn.toByte());
-  console.log("Signed transaction with txID: %s", txId);
+  
   await algo.algodClient.sendRawTransaction(signedTxn.blob).do();
 
   // Wait for transaction to be confirmed
@@ -100,25 +100,19 @@ export const createAuctionAction = async (senderAddress, auction) => {
   );
 
   // Get the completed Transaction
-  console.log(
-    "Transaction " +
-      txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
-
+  
   // Get created application id and notify about completion
   let transactionResponse = await algo.algodClient
     .pendingTransactionInformation(txId)
     .do();
   let appId = transactionResponse["application-index"];
-  console.log("Created new app-id: ", appId);
+  
   return appId;
 };
 
 // START:
 export const startAuctionAction = async (senderAddress, auction) => {
-  console.log("Placing Bid...");
+  
 
   let params = await algo.algodClient.getTransactionParams().do();
 
@@ -155,7 +149,7 @@ export const startAuctionAction = async (senderAddress, auction) => {
   let signedTxn = await algo.myAlgoConnect.signTransaction(
     txnArray.map((txn) => txn.toByte())
   );
-  console.log("Signed group transaction");
+  
   let tx = await algo.algodClient
     .sendRawTransaction(signedTxn.map((txn) => txn.blob))
     .do();
@@ -168,17 +162,12 @@ export const startAuctionAction = async (senderAddress, auction) => {
   );
 
   // Notify about completion
-  console.log(
-    "Group transaction " +
-      tx.txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 };
 
 // BID:
 export const bidAction = async (senderAddress, auction, amount) => {
-  console.log("Placing Bid...");
+  
 
   let params = await algo.algodClient.getTransactionParams().do();
 
@@ -190,7 +179,7 @@ export const bidAction = async (senderAddress, auction, amount) => {
 
   amount = stringToMicroAlgos(amount);
 
-  console.log(params);
+  
 
   // Build required app args as Uint8Array
   let bidArg = new TextEncoder().encode("bid");
@@ -224,7 +213,7 @@ export const bidAction = async (senderAddress, auction, amount) => {
   let signedTxn = await algo.myAlgoConnect.signTransaction(
     txnArray.map((txn) => txn.toByte())
   );
-  console.log("Signed group transaction");
+  
   let tx = await algo.algodClient
     .sendRawTransaction(signedTxn.map((txn) => txn.blob))
     .do();
@@ -237,17 +226,12 @@ export const bidAction = async (senderAddress, auction, amount) => {
   );
 
   // Notify about completion
-  console.log(
-    "Group transaction " +
-      tx.txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 };
 
 // END AUCTION:
 export const endAuctionAction = async (senderAddress, auction) => {
-  console.log("Ending Auction...");
+  
 
   let params = await algo.algodClient.getTransactionParams().do();
 
@@ -255,7 +239,7 @@ export const endAuctionAction = async (senderAddress, auction) => {
 
   params.fee = algosdk.ALGORAND_MIN_TX_FEE * 2;
 
-  console.log(params);
+  
 
   // Build required app args as Uint8Array
   let endArg = new TextEncoder().encode("end");
@@ -275,7 +259,7 @@ export const endAuctionAction = async (senderAddress, auction) => {
 
   // Sign & submit the transaction
   let signedTxn = await algo.myAlgoConnect.signTransaction(txn.toByte());
-  console.log("Signed transaction with txID: %s", txId);
+  
   await algo.algodClient.sendRawTransaction(signedTxn.blob).do();
 
   // Wait for transaction to be confirmed
@@ -286,17 +270,12 @@ export const endAuctionAction = async (senderAddress, auction) => {
   );
 
   // Get the completed Transaction
-  console.log(
-    "Transaction " +
-      txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 };
 
 // DELETE AUCTION
 export const deleteAuctionAction = async (senderAddress, index) => {
-  console.log("Deleting application");
+  
 
   let params = await algo.algodClient.getTransactionParams().do();
   let sender = new TextEncoder().encode(senderAddress);
@@ -315,7 +294,7 @@ export const deleteAuctionAction = async (senderAddress, index) => {
 
   // Sign & submit the transaction
   let signedTxn = await algo.myAlgoConnect.signTransaction(txn.toByte());
-  console.log("Signed transaction with txID: %s", txId);
+  
   await algo.algodClient.sendRawTransaction(signedTxn.blob).do();
 
   // Wait for transaction to be confirmed
@@ -326,24 +305,19 @@ export const deleteAuctionAction = async (senderAddress, index) => {
   );
 
   // Get the completed Transaction
-  console.log(
-    "Transaction " +
-      txId +
-      " confirmed in round " +
-      confirmedTxn["confirmed-round"]
-  );
+  
 
   // Get application id of deleted application and notify about completion
   let transactionResponse = await algo.algodClient
     .pendingTransactionInformation(txId)
     .do();
   let appId = transactionResponse["txn"]["txn"].apid;
-  console.log("Deleted app-id: ", appId);
+  
 };
 
 // GET LISTINGS: Using Indexer
 export const getAuctionsAction = async () => {
-  console.log("Fetching Listings...");
+  
   let note = new TextEncoder().encode(algo.auctionNote);
   let encodedNote = Buffer.from(note).toString("base64");
 
@@ -366,7 +340,7 @@ export const getAuctionsAction = async () => {
       }
     }
   }
-  console.log("Listings Fetched...");
+  
   return listings;
 };
 
