@@ -41,6 +41,7 @@ export const convertMins = (mins) => {
 };
 
 export const convertTime = (secs) => {
+  if(!secs) return ""
   if (secs === 0) {
     return "--";
   }

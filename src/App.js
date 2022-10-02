@@ -14,16 +14,18 @@ const App = function AppWrapper() {
   const [balance, setBalance] = useState(0);
 
   const fetchBalance = async (accountAddress) => {
-    indexerClient
+  try {
+    const response = await indexerClient
       .lookupAccountByID(accountAddress)
       .do()
-      .then((response) => {
-        const _balance = response.account.amount;
-        setBalance(_balance);
-      })
-      .catch((error) => {
+
+       if (!response) return
+       const _balance = response.account?.amount;
+       setBalance(_balance);
+    }
+      catch(error){
         console.log(error);
-      });
+      };
   };
 
   const connectWallet = async () => {
