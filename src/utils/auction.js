@@ -355,6 +355,8 @@ export const getAuctionsAction = async () => {
     .minRound(algo.minRound)
     .do();
 
+  if(!transactionInfo) return
+
   let listings = [];
   for (const transaction of transactionInfo.transactions) {
     let appId = transaction["created-application-index"];
